@@ -243,21 +243,40 @@ linked_t * linked_from_array(linked_t * bottom, void * array, int size, int item
 	return list;
 }
 
-
-// linked_callback_t)(linked_t * node, void * pass)
-linked_t * linked_compute(linked_t * bottom, linked_callback_t compute, void * pass) {
-	//linked_t * leaf = linked_leaf(bottom);
+linked_t * linked_from_array_ptr(linked_t * bottom, void * array, int size, int items) {
+	linked_t * leaf = linked_leaf(bottom);
 	linked_t * node = NULL;
+	linked_t * previous = leaf;
 	linked_t * list = bottom;
+	while (items--) {
+		node = linked_create(array);
+		if (previous) {
+			previous->next = node;
+			node->back = previous;
+		} else {
+			list = node;
+		}
+		previous = node;
+		array += size;
+	}
+	return list;
+}
+
+linked_t * linked_compute(linked_t * bottom, linked_callback_t compute, void * pass) {
+	linked_t * leaf = linked_leaf(bottom);
+	linked_t * node = NULL;
 	while (1) {
 		node = linked_create(NULL);
 		if (compute(node, pass)) {
-			free(node); // we allocated this for no reason, but its the cost of keeping this API simple
-			return list;
+			free(node); // we allocated this for no reason, but it's the cost of keeping this API simple
+			return linked_branch(leaf);
 		}
-		list = linked_append(list, node);
+		leaf = linked_append(leaf, node);
+		if (leaf->next) {
+			leaf = leaf->next;
+		}
 	}
-	return list;
+	return linked_branch(leaf);
 }
 
 linked_t * linked_find(linked_t * bottom, linked_callback_t callback, void * pass) {

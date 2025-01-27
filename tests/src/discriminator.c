@@ -15,7 +15,7 @@ int discriminator(linked_t * node, void * pass) {
 
 int main() {
 	char array[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	linked_t * list = linked_from_array(NULL, array, 1, 10);
+	linked_t * list = linked_from_array_ptr(NULL, array, 1, 10);
 
 	linked_iterate(list, dump, NULL);
 
