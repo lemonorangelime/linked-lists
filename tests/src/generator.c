@@ -3,18 +3,23 @@
 #include <stddef.h>
 #include <stdint.h>
 
+typedef struct {
+	int i;
+	int max;
+} generator_state_t;
+
 int dump(linked_t * node, void * pass) {
 	printf("- %p <= %p(%p) => %p\n", node->back, node, node->p, node->next);
 }
 
-// generate 10 nodes
-int i = 0;
 int generate(linked_t * node, void * pass) {
-	node->p = (void *) ++i;
-	return i == 11; // stop at node 11
+	generator_state_t * state = pass;
+	node->p = (void *) ++state->i;
+	return state->i == state->max + 1; // stop at last node + 1
 }
 
 int main() {
-	linked_t * list = linked_generate(NULL, generate, NULL);
+	generator_state_t state = {0, 10}; // generate 10 nodes
+	linked_t * list = linked_generate(NULL, generate, &state);
 	linked_iterate(list, dump, NULL);
 }
