@@ -96,6 +96,7 @@ linked_t * linked_append(linked_t * bottom, linked_t * node) {
 	if (!node) {
 		return NULL;
 	}
+
 	if (!bottom) {
 		node->next = NULL;
 		node->back = NULL;
@@ -238,6 +239,23 @@ linked_t * linked_from_array(linked_t * bottom, void * array, int size, int item
 		}
 		previous = node;
 		array += size;
+	}
+	return list;
+}
+
+
+// linked_callback_t)(linked_t * node, void * pass)
+linked_t * linked_compute(linked_t * bottom, linked_callback_t compute, void * pass) {
+	//linked_t * leaf = linked_leaf(bottom);
+	linked_t * node = NULL;
+	linked_t * list = bottom;
+	while (1) {
+		node = linked_create(NULL);
+		if (compute(node, pass)) {
+			free(node); // we allocated this for no reason, but its the cost of keeping this API simple
+			return list;
+		}
+		list = linked_append(list, node);
 	}
 	return list;
 }

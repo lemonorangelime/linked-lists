@@ -11,6 +11,7 @@ typedef struct slinked {
 	struct slinked * next;
 } slinked_t;
 
+// generic callback
 typedef int (* linked_callback_t)(linked_t * node, void * pass);
 
 linked_t * linked_leaf(linked_t * bottom); // grab the leaf node
@@ -29,6 +30,7 @@ void linked_iterate(linked_t * bottom, linked_callback_t callback, void * pass);
 void linked_destroy_all(linked_t * bottom, linked_callback_t destroy, void * pass); // call destory() for every node, then delete it, leaving an empty list
 linked_t * linked_discriminate(linked_t * bottom, linked_callback_t discriminator, void * pass);
 linked_t * linked_from_array(linked_t * bottom, void * array, int size, int items);
+linked_t * linked_compute(linked_t * bottom, linked_callback_t compute, void * pass);
 linked_t * linked_find(linked_t * bottom, linked_callback_t callback, void * pass); // search for a node
 linked_t * linked_find_back(linked_t * bottom, linked_callback_t callback, void * pass); // search for a node (backwards)
 
