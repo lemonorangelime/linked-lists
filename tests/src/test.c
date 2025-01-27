@@ -18,7 +18,9 @@ int main() {
 	linked_t * list = linked_from_array(NULL, array, 1, 10);
 
 	linked_iterate(list, dump, NULL);
+
 	printf("\nRemoving odd nodes\n\n");
+
 	list = linked_discriminate(list, discriminator, NULL);
 	linked_iterate(list, dump, NULL);
 }
