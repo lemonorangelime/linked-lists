@@ -262,12 +262,12 @@ linked_t * linked_from_array_ptr(linked_t * bottom, void * array, int size, int 
 	return list;
 }
 
-linked_t * linked_compute(linked_t * bottom, linked_callback_t compute, void * pass) {
+linked_t * linked_generate(linked_t * bottom, linked_callback_t generate, void * pass) {
 	linked_t * leaf = linked_leaf(bottom);
 	linked_t * node = NULL;
 	while (1) {
 		node = linked_create(NULL);
-		if (compute(node, pass)) {
+		if (generate(node, pass)) {
 			free(node); // we allocated this for no reason, but it's the cost of keeping this API simple
 			return linked_branch(leaf);
 		}
