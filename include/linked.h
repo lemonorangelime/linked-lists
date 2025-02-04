@@ -26,14 +26,15 @@ linked_t * linked_remove(linked_t * bottom, int index); // remove a node at inde
 linked_t * linked_delete(linked_t * node); // remove this node from it's list (AND FREE)
 linked_t * linked_pop(linked_t * node); // remove this node from it's list (no free)
 linked_t * linked_shift(linked_t * bottom, linked_t ** out); // shift one out of the list
-void linked_iterate(linked_t * bottom, linked_callback_t callback, void * pass); // call callback() for every node
-void linked_destroy_all(linked_t * bottom, linked_callback_t destroy, void * pass); // call destory() for every node, then delete it, leaving an empty list
-linked_t * linked_discriminate(linked_t * bottom, linked_callback_t discriminator, void * pass);
+void linked_iterate(linked_t * bottom, void * callback, void * pass); // call callback() for every node
+void linked_destroy_all(linked_t * bottom, void * destroy, void * pass); // call destory() for every node, then delete it, leaving an empty list
+void linked_free(linked_t * bottom);
+linked_t * linked_discriminate(linked_t * bottom, void * discriminator, void * pass);
 linked_t * linked_from_array(linked_t * bottom, void * array, int size, int items);
 linked_t * linked_from_array_ptr(linked_t * bottom, void * array, int size, int items);
-linked_t * linked_generate(linked_t * bottom, linked_callback_t generate, void * pass);
-linked_t * linked_find(linked_t * bottom, linked_callback_t callback, void * pass); // search for a node
-linked_t * linked_find_back(linked_t * bottom, linked_callback_t callback, void * pass); // search for a node (backwards)
+linked_t * linked_generate(linked_t * bottom, void * generate, void * pass);
+linked_t * linked_find(linked_t * bottom, void * callback, void * pass); // search for a node
+linked_t * linked_find_back(linked_t * bottom, void * callback, void * pass); // search for a node (backwards)
 
 // generic linked_find callback to just do (node->p == pass)
 int linked_find_generic(linked_t * node, void * pass);

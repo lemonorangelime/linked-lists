@@ -168,34 +168,51 @@ linked_t * linked_shift(linked_t * bottom, linked_t ** out) {
 	return next;
 }
 
-void linked_iterate(linked_t * bottom, linked_callback_t callback, void * pass) {
-	if (!bottom) {
+void linked_iterate(linked_t * bottom, void * callback, void * pass) {
+	if (!bottom || !callback) {
 		return;
 	}
+	linked_callback_t func = callback;
 	linked_t * node = bottom;
 	while (node) {
-		callback(node, pass);
+		func(node, pass);
 		node = node->next;
 	}
 }
 
-void linked_destroy_all(linked_t * bottom, linked_callback_t destroy, void * pass) {
+void linked_destroy_all(linked_t * bottom, void * callback, void * pass) {
+	if (!bottom) {
+		return;
+	}
+	linked_callback_t func = callback;
+	linked_t * node = bottom;
+	while (node) {
+		linked_t * next = node->next;
+		if (callback) {
+			func(node, pass);
+		}
+		free(node);
+		node = next;
+	}
+}
+
+void linked_free(linked_t * bottom) {
 	if (!bottom) {
 		return;
 	}
 	linked_t * node = bottom;
 	while (node) {
 		linked_t * next = node->next;
-		destroy(node, pass);
 		free(node);
 		node = next;
 	}
 }
 
-linked_t * linked_discriminate(linked_t * bottom, linked_callback_t discriminator, void * pass) {
-	if (!bottom) {
+linked_t * linked_discriminate(linked_t * bottom, void * callback, void * pass) {
+	if (!bottom || !callback) {
 		return NULL;
 	}
+	linked_callback_t discriminator = callback;
 	linked_t * node = bottom;
 	linked_t * previous = NULL;
 	linked_t * new = bottom;
@@ -262,7 +279,11 @@ linked_t * linked_from_array_ptr(linked_t * bottom, void * array, int size, int 
 	return list;
 }
 
-linked_t * linked_generate(linked_t * bottom, linked_callback_t generate, void * pass) {
+linked_t * linked_generate(linked_t * bottom, void * callback, void * pass) {
+	if (!callback) {
+		return bottom;
+	}
+	linked_callback_t generate = callback;
 	linked_t * leaf = linked_leaf(bottom);
 	linked_t * node = NULL;
 	while (1) {
@@ -279,13 +300,14 @@ linked_t * linked_generate(linked_t * bottom, linked_callback_t generate, void *
 	return linked_branch(leaf);
 }
 
-linked_t * linked_find(linked_t * bottom, linked_callback_t callback, void * pass) {
-	if (!bottom) {
+linked_t * linked_find(linked_t * bottom, void * callback, void * pass) {
+	if (!bottom || !callback) {
 		return NULL;
 	}
+	linked_callback_t func = callback;
 	linked_t * node = bottom;
 	while (node) {
-		if (callback(node, pass)) {
+		if (func(node, pass)) {
 			return node;
 		}
 		node = node->next;
@@ -293,13 +315,14 @@ linked_t * linked_find(linked_t * bottom, linked_callback_t callback, void * pas
 	return NULL;
 }
 
-linked_t * linked_find_back(linked_t * bottom, linked_callback_t callback, void * pass) {
-	if (!bottom) {
+linked_t * linked_find_back(linked_t * bottom, void * callback, void * pass) {
+	if (!bottom || !callback) {
 		return NULL;
 	}
+	linked_callback_t func = callback;
 	linked_t * node = linked_leaf(bottom);
 	while (node) {
-		if (callback(node, pass)) {
+		if (func(node, pass)) {
 			return node;
 		}
 		node = node->back;
