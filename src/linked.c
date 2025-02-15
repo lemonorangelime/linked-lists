@@ -330,6 +330,15 @@ linked_t * linked_find_back(linked_t * bottom, void * callback, void * pass) {
 	return NULL;
 }
 
+linked_t * linked_step_iterator(linked_iterator_t * iterator) {
+	linked_t * node = iterator->node;
+	if (!node) {
+		return NULL;
+	}
+	iterator->node = node->next;
+	return node;
+}
+
 // generic linked_find callback
 int linked_find_generic(linked_t * node, void * pass) {
 	return node->p == pass;
