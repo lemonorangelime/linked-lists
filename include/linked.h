@@ -22,6 +22,7 @@ linked_t * linked_leaf(linked_t * bottom); // grab the leaf node
 linked_t * linked_branch(linked_t * node); // grab the branch node
 int linked_count(linked_t * bottom); // count nodes
 linked_t * linked_add(linked_t * bottom, void * p); // create a new node and add it
+linked_t * linked_create(void * p);
 linked_t * linked_prepend(linked_t * bottom, linked_t * node); // prepend an existing node to start
 linked_t * linked_stitch(linked_t * bottom, linked_t * top); // stitch two lists together
 linked_t * linked_append(linked_t * bottom, linked_t * node); // append an existing node to end
