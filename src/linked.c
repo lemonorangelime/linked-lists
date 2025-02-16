@@ -131,6 +131,9 @@ linked_t * linked_remove(linked_t * bottom, int index) {
 }
 
 linked_t * linked_delete(linked_t * node) {
+	if (!node) {
+		return NULL;
+	}
 	linked_t * branch = linked_branch(node);
 	linked_t * next = branch->next;
 	if (node->back) {
