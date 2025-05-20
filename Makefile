@@ -1,7 +1,7 @@
 BUILD_DIR := build
 
 CC := gcc
-CCFLAGS := -O3 -fno-stack-protector -m32 -Wno-pointer-to-int-cast -Iinclude
+CCFLAGS := -Ofast -mno-sse -mno-avx -fno-stack-protector -m32 -Wno-pointer-to-int-cast -Iinclude
 ASM := nasm
 ASMFLAGS := -f elf32
 MAKE := make
