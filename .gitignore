@@ -6,6 +6,8 @@
 *.py
 build/
 build/*
+build_*/
+build_*/*
 .vscode/*
 .vscode/
 *.vsix
